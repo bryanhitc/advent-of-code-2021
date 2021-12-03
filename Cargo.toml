@@ -14,9 +14,11 @@ itertools = "~0.10"
 
 [profile.release]
 lto = 'fat'
+debug = true
 
 [profile.bench]
 lto = 'fat'
+debug = true
 
 [[bench]]
 name = "benchmarks"
