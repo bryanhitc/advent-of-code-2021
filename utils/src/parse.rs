@@ -3,6 +3,27 @@ use std::fs;
 use std::path::Path;
 use std::str::FromStr;
 
+pub fn iter_input<'a, T, E>(input: &'a str) -> impl Iterator<Item = T> + 'a
+where
+    T: FromStr<Err = E>,
+    E: Debug,
+{
+    input.lines().map(|line| line.parse::<T>().unwrap())
+}
+
+pub fn iter_input_2<'a, T1, T2, E1, E2>(input: &'a str) -> impl Iterator<Item = (T1, T2)> + 'a
+where
+    T1: FromStr<Err = E1>,
+    T2: FromStr<Err = E2>,
+    E1: Debug,
+    E2: Debug,
+{
+    input.lines().map(|line| {
+        let mut items = line.split(" ");
+        (items.next().unwrap().parse::<T1>().unwrap(), items.next().unwrap().parse::<T2>().unwrap())
+    })
+}
+
 pub fn default_parse_lines<T, E>(input: &str) -> Vec<T>
 where
     T: FromStr<Err = E>,

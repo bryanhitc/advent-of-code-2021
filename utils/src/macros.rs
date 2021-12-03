@@ -44,10 +44,16 @@ macro_rules! part_impl {
 
             let begin = std::time::Instant::now();
             let input = parse_input(&raw_input);
-            let result1 = part_one(&input);
-            let result2 = part_two(&input);
+            let input_elapsed = begin.elapsed();
 
-            println!("Finished {} in {:?}: part1={} part2={}", day, begin.elapsed(), result1, result2);
+            let p1 = part_one(&input);
+            let p1_elapsed = begin.elapsed() - input_elapsed;
+
+            let p2 = part_two(&input);
+            let p2_elapsed = begin.elapsed() - p1_elapsed;
+
+            println!("Finished {} in {:?}: P1={} ({:?}) P2={} ({:?})",
+                day, begin.elapsed(), p1, p1_elapsed, p2, p2_elapsed);
         }
 
         #[cfg(test)]

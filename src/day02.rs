@@ -1,14 +1,9 @@
 use utils::{parse::*, part_impl};
 
-pub enum Direction {
-    Forward,
-    Down,
-    Up,
-}
-
-pub struct Command {
-    direction: Direction,
-    offset: i64,
+pub enum Command {
+    Forward(i64),
+    Down(i64),
+    Up(i64),
 }
 
 pub fn part_one(commands: &[Command]) -> i64 {
@@ -16,10 +11,10 @@ pub fn part_one(commands: &[Command]) -> i64 {
     let mut depth = 0i64;
 
     for command in commands {
-        match command.direction {
-            Direction::Forward => horizontal += command.offset,
-            Direction::Up => depth -= command.offset,
-            Direction::Down => depth += command.offset,
+        match command {
+            Command::Forward(offset) => horizontal += offset,
+            Command::Up(offset) => depth -= offset,
+            Command::Down(offset) => depth += offset,
         };
     }
 
@@ -32,13 +27,13 @@ pub fn part_two(commands: &[Command]) -> i64 {
     let mut aim = 0i64;
 
     for command in commands {
-        match command.direction {
-            Direction::Forward => {
-                horizontal += command.offset;
-                depth += command.offset * aim;
+        match command {
+            Command::Forward(offset) => {
+                horizontal += offset;
+                depth += offset * aim;
             }
-            Direction::Up => aim -= command.offset,
-            Direction::Down => aim += command.offset,
+            Command::Up(offset) => aim -= offset,
+            Command::Down(offset) => aim += offset,
         };
     }
 
@@ -49,15 +44,44 @@ pub fn parse_input(input: &str) -> Vec<Command> {
     parse_lines2(
         input,
         " ",
-        |direction| match direction.chars().next().unwrap() {
-            'f' => Direction::Forward,
-            'd' => Direction::Down,
-            'u' => Direction::Up,
-            _ => panic!("invalid direction"),
-        },
+        |direction| direction.chars().next().unwrap(),
         |offset| offset.parse::<i64>().unwrap(),
-        |(direction, offset)| Command { direction, offset },
+        |(direction, offset)| match direction {
+            'f' => Command::Forward(offset),
+            'd' => Command::Down(offset),
+            'u' => Command::Up(offset),
+            _ => unreachable!(),
+        },
     )
+}
+
+#[allow(dead_code)]
+pub fn parse_input_fast(input: &str) -> Vec<Command> {
+    let mut values: Vec<Command> = Vec::with_capacity(2000);
+
+    let bytes = input.as_bytes();
+    let mut index: usize = 0;
+    while index < bytes.len() {
+        match bytes[index] {
+            b'f' => {
+                index += 8;
+                values.push(Command::Forward((bytes[index] - b'0') as i64));
+                index += 2;
+            }
+            b'd' => {
+                index += 5;
+                values.push(Command::Down((bytes[index] - b'0') as i64));
+                index += 2;
+            }
+            b'u' => {
+                index += 3;
+                values.push(Command::Up((bytes[index] - b'0') as i64));
+                index += 2;
+            }
+            _ => break,
+        }
+    }
+    values
 }
 
 part_impl! {
