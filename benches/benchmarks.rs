@@ -40,5 +40,9 @@ fn day03(c: &mut Criterion) {
     benchmark!("day03", day03)(c)
 }
 
-criterion_group!(benches, day01, day02, day03);
+fn day04(c: &mut Criterion) {
+    benchmark!("day04", day04)(c)
+}
+
+criterion_group!(benches, day01, day02, day03, day04);
 criterion_main!(benches);
