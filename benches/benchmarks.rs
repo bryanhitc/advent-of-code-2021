@@ -7,21 +7,30 @@ macro_rules! benchmark {
             use $module::{parse_input, part_one, part_two};
 
             let day_name = $day_name;
+            let module_name = stringify!($module);
+
+            let full_prefix = format!("{}::{}", day_name, module_name);
+            let prefix = if day_name == module_name {
+                day_name
+            } else {
+                full_prefix.as_str()
+            };
+
             let raw_input =
                 std::fs::read_to_string(format!("inputs/{}/problem.txt", day_name)).unwrap();
             let input = parse_input(&raw_input);
 
-            c.bench_function(&format!("{}:parse", day_name), |b| {
+            c.bench_function(&format!("{}::parse", prefix), |b| {
                 b.iter(|| {
                     let _test = parse_input(&raw_input);
                 })
             });
 
-            c.bench_function(&format!("{}:part1", day_name), |b| {
+            c.bench_function(&format!("{}::part1", prefix), |b| {
                 b.iter(|| part_one(black_box(&input)))
             });
 
-            c.bench_function(&format!("{}:part2", day_name), |b| {
+            c.bench_function(&format!("{}::part2", prefix), |b| {
                 b.iter(|| part_two(black_box(&input)))
             });
         }
@@ -52,5 +61,15 @@ fn day06(c: &mut Criterion) {
     benchmark!("day06", day06)(c)
 }
 
-criterion_group!(benches, day01, day02, day03, day04, day05, day06);
+fn day07(c: &mut Criterion) {
+    use day07::impl07;
+    benchmark!("day07", impl07)(c)
+}
+
+fn day07_opt(c: &mut Criterion) {
+    use day07::implopt07;
+    benchmark!("day07", implopt07)(c)
+}
+
+criterion_group!(benches, day01, day02, day03, day04, day05, day06, day07, day07_opt);
 criterion_main!(benches);
