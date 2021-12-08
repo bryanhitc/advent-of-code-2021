@@ -1,4 +1,4 @@
-use utils::{parse::*, part_impl};
+use utils::part_impl;
 
 // digits - 1 technically
 const fn bit_mask(num_digits: usize) -> u32 {
