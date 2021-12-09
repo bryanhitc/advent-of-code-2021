@@ -1,49 +1,49 @@
-// use itertools::Itertools;
-use utils::{parse::*, part_impl};
+use utils::part_impl;
 
-pub fn parse_input(input: &str) -> Vec<u32> {
-    default_parse_lines(input)
-}
+type Depth = u16;
 
 // Invariant: input.len() > window_size
-fn get_num_increased(depths: &[u32], window_size: usize) -> u32 {
-    let mut increases: u32 = 0;
+fn get_num_increased(depths: &[Depth], window_size: usize) -> Depth {
+    let mut increases: Depth = 0;
+
     for index in window_size..depths.len() {
         if depths[index] > depths[index - window_size] {
             increases += 1;
         }
     }
+
     increases
 }
 
-pub fn part_one(depths: &[u32]) -> u32 {
+pub fn part_one(depths: &[Depth]) -> Depth {
     get_num_increased(depths, 1)
 }
 
-pub fn part_two(depths: &[u32]) -> u32 {
+pub fn part_two(depths: &[Depth]) -> Depth {
     get_num_increased(depths, 3)
 }
 
-// pub fn part_one(depths: &[u32]) -> usize {
-//     depths
-//         .iter()
-//         .tuple_windows()
-//         .filter(|(&prev, &curr)| curr > prev)
-//         .count()
-// }
+pub fn parse_input(input: &str) -> Vec<Depth> {
+    let mut depths = Vec::with_capacity(2000);
 
-// pub fn part_two(depths: &[u32]) -> usize {
-//     // This is likely slower than it needs to be since the window sum
-//     // can be calculated as prevWindow sum - evictedValue + newValue.
-//     // LLVM might already be doing this and/or using avx, though.
-//     // The latter would require lto with target-cpu=native or some avx flag.
-//     let window_sums = depths.windows(3).map(|window| window.iter().sum::<u32>());
+    let bytes = input.as_bytes();
+    let mut value: Depth = 0;
 
-//     window_sums
-//         .tuple_windows()
-//         .filter(|(prev, curr)| curr > prev)
-//         .count()
-// }
+    for byte in bytes {
+        match *byte {
+            b'\n' => {
+                depths.push(value);
+                value = 0;
+            }
+            v => {
+                value *= 10;
+                value += (v - b'0') as Depth;
+            }
+        }
+    }
+
+    depths
+}
 
 part_impl! {
     part_one_test01: 7,
