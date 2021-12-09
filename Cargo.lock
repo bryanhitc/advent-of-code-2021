@@ -8,6 +8,7 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
+ "scanfmt",
  "utils",
 ]
 
@@ -400,6 +401,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
+]
+
+[[package]]
+name = "scanfmt"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f93050764efcf24fb06f153d980ea2f60e50263d5ccc6c875d1f706948683628"
+dependencies = [
+ "scanfmt_macros",
+]
+
+[[package]]
+name = "scanfmt_macros"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1993503fe0ebceeec2779756fe7c730a1e8bec2acc6ce7255dff1292af73feb5"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
