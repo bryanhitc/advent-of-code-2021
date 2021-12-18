@@ -17,6 +17,9 @@ const COL_4: u32 = 0b00001_00001_00001_00001_00001;
 
 const BOARD_SIZE: usize = 25;
 
+// fn test(t: &str) {
+// }
+
 #[derive(Clone, Copy, Debug)]
 pub struct BingoBoard {
     won: bool,

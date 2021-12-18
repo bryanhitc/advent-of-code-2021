@@ -1,5 +1,10 @@
+#[derive(Debug)]
+pub struct Input(Vec<u16>);
+
 #[allow(dead_code)]
 pub mod impl07 {
+    use super::Input;
+
     fn calculate(crabs: &[u16], cost: impl Fn(u16, u16) -> usize) -> usize {
         // brute force; idc
         let min_pos = *crabs.iter().min().unwrap();
@@ -16,27 +21,31 @@ pub mod impl07 {
     }
 
     pub fn part_one(crabs: &[u16]) -> usize {
-        calculate(crabs, distance)
+        calculate(&crabs.0, distance)
     }
 
-    pub fn part_two(crabs: &[u16]) -> usize {
-        calculate(crabs, |pos, crab| {
+    pub fn part_two(crabs: &Input) -> usize {
+        calculate(&crabs.0, |pos, crab| {
             let num = distance(pos, crab);
             (num * (num + 1)) / 2
         })
     }
 
-    pub fn parse_input(input: &str) -> Vec<u16> {
-        input
-            .trim()
-            .split(',')
-            .map(|num| num.parse::<u16>().unwrap())
-            .collect::<Vec<_>>()
+    pub fn parse_input(input: &str) -> Input {
+        Input(
+            input
+                .trim()
+                .split(',')
+                .map(|num| num.parse::<u16>().unwrap())
+                .collect::<Vec<_>>(),
+        )
     }
 }
 
 #[allow(dead_code)]
 pub mod implopt07 {
+    use super::Input;
+
     fn median(crabs: &[u16]) -> u16 {
         match crabs.len() % 2 {
             0 => (crabs[crabs.len() / 2 - 1] + crabs[crabs.len() / 2]) / 2,

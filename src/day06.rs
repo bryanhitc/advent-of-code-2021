@@ -69,15 +69,18 @@ mod impl06 {
 
 use impl06::*;
 
-pub fn part_one(school: &School) -> usize {
-    school.total_size(80)
+pub fn part_one(school: &Input) -> usize {
+    school.0.total_size(80)
 }
 
-pub fn part_two(school: &School) -> usize {
-    school.total_size(256)
+pub fn part_two(school: &Input) -> usize {
+    school.0.total_size(256)
 }
 
-pub fn parse_input(input: &str) -> School {
+#[derive(Debug)]
+pub struct Input(School);
+
+pub fn parse_input(input: &str) -> Input {
     let mut population = Vec::with_capacity(300);
 
     let bytes = input.as_bytes();
@@ -88,7 +91,7 @@ pub fn parse_input(input: &str) -> School {
         index += 2;
     }
 
-    School::new(population)
+    Input(School::new(population))
 }
 
 part_impl! {

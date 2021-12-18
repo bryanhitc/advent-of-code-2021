@@ -13,15 +13,18 @@ fn get_num_increased(depths: &[Depth], window_size: usize) -> Depth {
     increases
 }
 
-pub fn part_one(depths: &[Depth]) -> Depth {
-    get_num_increased(depths, 1)
+pub fn part_one(depths: &Input) -> Depth {
+    get_num_increased(&depths.0, 1)
 }
 
-pub fn part_two(depths: &[Depth]) -> Depth {
-    get_num_increased(depths, 3)
+pub fn part_two(depths: &Input) -> Depth {
+    get_num_increased(&depths.0, 3)
 }
 
-pub fn parse_input(input: &str) -> Vec<Depth> {
+#[derive(Debug)]
+pub struct Input(Vec<Depth>);
+
+pub fn parse_input(input: &str) -> Input {
     let mut depths = Vec::with_capacity(2000);
 
     let bytes = input.as_bytes();
@@ -40,7 +43,7 @@ pub fn parse_input(input: &str) -> Vec<Depth> {
         }
     }
 
-    depths
+    Input(depths)
 }
 
 part_impl! {

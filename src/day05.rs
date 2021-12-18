@@ -113,21 +113,22 @@ impl Board {
     }
 }
 
-pub fn part_one(paths: &[Path]) -> usize {
+pub fn part_one(paths: &Input) -> usize {
     let mut board = Board::new();
 
     board.traverse_paths(
         paths
+            .0
             .iter()
             .filter(|&&path| !matches!(path, Path::Diagonal(_))),
     );
     board.at_least_two_overlap_count()
 }
 
-pub fn part_two(paths: &[Path]) -> usize {
+pub fn part_two(paths: &Input) -> usize {
     let mut board = Board::new();
 
-    board.traverse_paths(paths.iter());
+    board.traverse_paths(paths.0.iter());
     board.at_least_two_overlap_count()
 }
 
@@ -154,7 +155,10 @@ fn parse_num(index: &mut usize, bytes: &[u8]) -> Num {
     num
 }
 
-pub fn parse_input(input: &str) -> Vec<Path> {
+#[derive(Debug)]
+pub struct Input(Vec<Path>);
+
+pub fn parse_input(input: &str) -> Input {
     let mut paths = Vec::with_capacity(500);
 
     let bytes = input.as_bytes();
@@ -178,7 +182,7 @@ pub fn parse_input(input: &str) -> Vec<Path> {
         paths.push(Path::new(start, end));
     }
 
-    paths
+    Input(paths)
 }
 
 part_impl!(

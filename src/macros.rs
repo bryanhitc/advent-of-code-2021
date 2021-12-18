@@ -3,10 +3,6 @@ macro_rules! part_test {
     ($name:ident, $expected:expr) => {
         #[test]
         fn $name() {
-            let day = module_path!()
-                .split("::")
-                .find(|&module_name| module_name.starts_with("day"))
-                .unwrap();
             let mut test_name_parts = stringify!($name).split('_');
 
             let part_name = [
@@ -22,11 +18,10 @@ macro_rules! part_test {
                 _ => panic!("invalid part name"),
             };
 
-            let path = format!("inputs/{}/{}.txt", day, file_name);
-            let raw_input = std::fs::read_to_string(path).unwrap();
-            let input = parse_input(&raw_input);
+            let input = get_input(file_name);
+            let actual = part_func(&input);
 
-            assert_eq!(part_func(&input), $expected);
+            assert_eq!($expected, actual);
         }
     };
 }
@@ -34,15 +29,21 @@ macro_rules! part_test {
 #[macro_export]
 macro_rules! part_impl {
     ($($name:ident: $values:expr,)*) => {
-        pub fn exec() {
+        fn get_day_and_raw_input(file_name: &str) -> (&'static str, String) {
             let day = module_path!()
                 .split("::")
                 .find(|&module_name| module_name.starts_with("day"))
                 .unwrap();
-            let file_path = format!("inputs/{}/problem.txt", day);
+            let file_path = format!("inputs/{}/{}.txt", day, file_name);
             let raw_input = std::fs::read_to_string(&file_path).unwrap();
 
+            (day, raw_input)
+        }
+
+        pub fn exec() {
+            let (day, raw_input) = get_day_and_raw_input("problem");
             let begin = std::time::Instant::now();
+
             let input = parse_input(&raw_input);
             let input_elapsed = begin.elapsed();
 
@@ -59,6 +60,26 @@ macro_rules! part_impl {
         #[cfg(test)]
         mod tests {
             use super::*;
+
+            lazy_static! {
+                static ref TEST01_INPUT: Input = {
+                    let (_, raw_input) = get_day_and_raw_input("test01");
+                    parse_input(&raw_input)
+                };
+
+                static ref PROBLEM_INPUT: Input = {
+                    let (_, raw_input) = get_day_and_raw_input("problem");
+                    parse_input(&raw_input)
+                };
+            }
+
+            fn get_input(file_name: &str) -> &Input {
+                match file_name {
+                    "test01" => &TEST01_INPUT,
+                    "problem" => &PROBLEM_INPUT,
+                    _ => panic!("unexpected"),
+                }
+            }
 
             $(
                 part_test!($name, $values);

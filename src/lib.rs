@@ -1,3 +1,10 @@
+#![feature(const_option)]
+#![feature(const_mut_refs)]
+
+#[cfg(test)]
+#[macro_use]
+extern crate lazy_static;
+
 #[macro_use]
 mod macros;
 

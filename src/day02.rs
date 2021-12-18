@@ -8,11 +8,11 @@ pub enum Command {
     Up(Magnitude),
 }
 
-pub fn part_one(commands: &[Command]) -> Answer {
+pub fn part_one(commands: &Input) -> Answer {
     let mut horizontal = 0;
     let mut depth = 0;
 
-    for command in commands {
+    for command in &commands.0 {
         match command {
             Command::Forward(offset) => horizontal += offset,
             Command::Up(offset) => depth -= offset,
@@ -23,12 +23,12 @@ pub fn part_one(commands: &[Command]) -> Answer {
     horizontal * depth
 }
 
-pub fn part_two(commands: &[Command]) -> Answer {
+pub fn part_two(commands: &Input) -> Answer {
     let mut horizontal = 0;
     let mut depth = 0;
     let mut aim = 0;
 
-    for command in commands {
+    for command in &commands.0 {
         match command {
             Command::Forward(offset) => {
                 horizontal += *offset;
@@ -42,7 +42,10 @@ pub fn part_two(commands: &[Command]) -> Answer {
     horizontal * depth
 }
 
-pub fn parse_input(input: &str) -> Vec<Command> {
+#[derive(Debug)]
+pub struct Input(Vec<Command>);
+
+pub fn parse_input(input: &str) -> Input {
     let mut commands = Vec::<Command>::with_capacity(2000);
 
     let bytes = input.as_bytes();
@@ -69,7 +72,7 @@ pub fn parse_input(input: &str) -> Vec<Command> {
         }
     }
 
-    commands
+    Input(commands)
 }
 
 part_impl! {
