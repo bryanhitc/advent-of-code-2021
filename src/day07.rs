@@ -108,7 +108,6 @@ pub mod implopt07 {
 }
 
 use implopt07::*;
-use utils::part_impl;
 
 part_impl! {
     part_one_test01: 37,

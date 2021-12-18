@@ -1,4 +1,4 @@
-#[macro_export]
+#[cfg(test)]
 macro_rules! part_test {
     ($name:ident, $expected:expr) => {
         #[test]
@@ -59,8 +59,9 @@ macro_rules! part_impl {
         #[cfg(test)]
         mod tests {
             use super::*;
+
             $(
-                utils::part_test!($name, $values);
+                part_test!($name, $values);
             )*
         }
     };

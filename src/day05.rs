@@ -1,7 +1,4 @@
 // Naive solution, so it's slow
-
-use utils::part_impl;
-
 type Num = u16;
 
 #[inline(always)]

@@ -1,10 +1,4 @@
-mod day01;
-mod day02;
-mod day03;
-mod day04;
-mod day05;
-mod day06;
-mod day07;
+use advent_of_code_2021::*;
 
 fn main() {
     day01::exec();

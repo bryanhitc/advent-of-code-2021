@@ -68,7 +68,6 @@ mod impl06 {
 }
 
 use impl06::*;
-use utils::part_impl;
 
 pub fn part_one(school: &School) -> usize {
     school.total_size(80)

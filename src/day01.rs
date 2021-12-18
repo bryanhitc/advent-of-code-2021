@@ -1,5 +1,3 @@
-use utils::part_impl;
-
 type Depth = u16;
 
 // Invariant: input.len() > window_size

@@ -8,10 +8,6 @@ edition = "2021"
 [dev-dependencies]
 criterion = "~0.3"
 
-[dependencies]
-utils = { path = "./utils" }
-itertools = "~0.10"
-
 [profile.release]
 lto = 'thin'
 debug = true

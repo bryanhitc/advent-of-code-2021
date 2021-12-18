@@ -3,7 +3,6 @@
 #![allow(clippy::unusual_byte_groupings)]
 
 use std::convert::From;
-use utils::part_impl;
 
 const ROW_0: u32 = 0b00000_00000_00000_00000_11111;
 const ROW_1: u32 = 0b00000_00000_00000_11111_00000;

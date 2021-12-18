@@ -1,5 +1,3 @@
-use utils::part_impl;
-
 type Magnitude = i32;
 type Answer = i32;
 
