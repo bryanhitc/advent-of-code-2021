@@ -71,5 +71,17 @@ fn day07_opt(c: &mut Criterion) {
     benchmark!("day07", implopt07)(c)
 }
 
-criterion_group!(benches, day01, day02, day03, day04, day05, day06, day07, day07_opt);
+fn day09(c: &mut Criterion) {
+    use day09::impl09;
+    benchmark!("day09", impl09)(c)
+}
+
+fn day09_opt(c: &mut Criterion) {
+    use day09::implopt09;
+    benchmark!("day09", implopt09)(c)
+}
+
+criterion_group!(
+    benches, day01, day02, day03, day04, day05, day06, day07, day07_opt, day09, day09_opt
+);
 criterion_main!(benches);

@@ -8,4 +8,5 @@ fn main() {
     day05::exec();
     day06::exec();
     day07::exec();
+    day09::exec();
 }
