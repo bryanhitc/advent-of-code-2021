@@ -9,4 +9,5 @@ fn main() {
     day06::exec();
     day07::exec();
     day09::exec();
+    day10::exec();
 }
