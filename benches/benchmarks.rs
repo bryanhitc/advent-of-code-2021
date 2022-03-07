@@ -82,7 +82,7 @@ fn day09_opt(c: &mut Criterion) {
 }
 
 fn day10(c: &mut Criterion) {
-    benchmark!("day09", day10)(c)
+    benchmark!("day10", day10)(c)
 }
 
 criterion_group!(
