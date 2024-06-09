@@ -1,24 +1,22 @@
 type Depth = u16;
 
-// Invariant: input.len() > window_size
-fn get_num_increased(depths: &[Depth], window_size: usize) -> Depth {
-    let mut increases: Depth = 0;
-
-    for index in window_size..depths.len() {
-        if depths[index] > depths[index - window_size] {
-            increases += 1;
-        }
-    }
-
-    increases
+fn get_num_increased(depths: &[Depth], window_size: usize) -> u16 {
+    depths
+        .windows(window_size)
+        .filter(|window| window.last() > window.first())
+        // Use `fold` instead of `count` because the latter forces
+        // `usize` which worsens benchmark results by ~400%. Maybe
+        // `u16` triggers some automatic compiler vectorization
+        // optimization due to reduced "width"?
+        .fold(0u16, |acc, _| acc + 1)
 }
 
-pub fn part_one(depths: &[Depth]) -> Depth {
-    get_num_increased(depths, 1)
+pub fn part_one(depths: &[Depth]) -> u16 {
+    get_num_increased(depths, 2)
 }
 
-pub fn part_two(depths: &[Depth]) -> Depth {
-    get_num_increased(depths, 3)
+pub fn part_two(depths: &[Depth]) -> u16 {
+    get_num_increased(depths, 4)
 }
 
 pub fn parse_input(input: &str) -> Vec<Depth> {
@@ -35,7 +33,7 @@ pub fn parse_input(input: &str) -> Vec<Depth> {
             }
             v => {
                 value *= 10;
-                value += (v - b'0') as Depth;
+                value += Depth::from(v - b'0');
             }
         }
     }

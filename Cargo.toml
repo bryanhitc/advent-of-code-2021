@@ -10,11 +10,9 @@ criterion = "0.3"
 
 [profile.release]
 lto = 'thin'
-debug = true
 
 [profile.bench]
-lto = 'fat'
-debug = true
+lto = 'thin'
 
 [[bench]]
 name = "benchmarks"

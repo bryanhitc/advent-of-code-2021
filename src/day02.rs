@@ -31,11 +31,11 @@ pub fn part_two(commands: &[Command]) -> Answer {
     for command in commands {
         match command {
             Command::Forward(offset) => {
-                horizontal += *offset;
-                depth += (*offset) * aim;
+                horizontal += offset;
+                depth += offset * aim;
             }
-            Command::Up(offset) => aim -= *offset,
-            Command::Down(offset) => aim += *offset,
+            Command::Up(offset) => aim -= offset,
+            Command::Down(offset) => aim += offset,
         };
     }
 
@@ -52,17 +52,17 @@ pub fn parse_input(input: &str) -> Vec<Command> {
         match bytes[index] {
             b'f' => {
                 index += 8;
-                commands.push(Command::Forward((bytes[index] - b'0') as Magnitude));
+                commands.push(Command::Forward(Magnitude::from(bytes[index] - b'0')));
                 index += 2;
             }
             b'd' => {
                 index += 5;
-                commands.push(Command::Down((bytes[index] - b'0') as Magnitude));
+                commands.push(Command::Down(Magnitude::from(bytes[index] - b'0')));
                 index += 2;
             }
             b'u' => {
                 index += 3;
-                commands.push(Command::Up((bytes[index] - b'0') as Magnitude));
+                commands.push(Command::Up(Magnitude::from(bytes[index] - b'0')));
                 index += 2;
             }
             _ => break,

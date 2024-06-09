@@ -10,10 +10,7 @@ fn is_bit_set(input: BinaryNum, pos: BinaryNum) -> bool {
 
 #[inline]
 fn one_bit_frequency(nums: &[BinaryNum], pos: BinaryNum) -> Ordering {
-    let count = nums
-        .iter()
-        .fold(0usize, |total, &num| total + is_bit_set(num, pos) as usize);
-
+    let count = nums.iter().filter(|&&num| is_bit_set(num, pos)).count();
     count.cmp(&(nums.len() - count))
 }
 
