@@ -1,3 +1,5 @@
+use std::{iter::Peekable, slice::Iter};
+
 // Naive solution, so it's slow
 type Num = u16;
 
@@ -132,46 +134,37 @@ pub fn part_two(paths: &[Path]) -> usize {
 }
 
 #[inline]
-fn parse_num(index: &mut usize, bytes: &[u8]) -> Num {
-    let mut num = Num::from(bytes[*index] - b'0');
-    *index += 1;
-
-    for &digit in bytes.iter().skip(*index) {
+fn parse_num(bytes: &mut Peekable<Iter<u8>>) -> Num {
+    let mut num = Num::from(bytes.next().unwrap() - b'0');
+    for &digit in bytes {
         if !digit.is_ascii_digit() {
             break;
         }
 
         num *= 10;
         num += Num::from(digit - b'0');
-        *index += 1;
     }
     num
 }
 
 pub fn parse_input(input: &str) -> Vec<Path> {
     let mut paths = Vec::with_capacity(500);
+    let mut iter = input.as_bytes().iter().peekable();
+    while iter.peek().is_some() {
+        let start = Point {
+            x: parse_num(&mut iter),
+            y: parse_num(&mut iter),
+        };
 
-    let bytes = input.as_bytes();
-    let mut index = 0;
-
-    while index < bytes.len() {
-        let x = parse_num(&mut index, bytes);
-        index += 1;
-        let y = parse_num(&mut index, bytes);
-
-        let start = Point { x, y };
-        index += 4;
-
-        let x = parse_num(&mut index, bytes);
-        index += 1;
-        let y = parse_num(&mut index, bytes);
-
-        let end = Point { x, y };
-        index += 1;
-
+        // TODO(bryanhitc): Replace with `advance_by`
+        // once issue #77404 is merged?
+        iter.nth(3).unwrap();
+        let end = Point {
+            x: parse_num(&mut iter),
+            y: parse_num(&mut iter),
+        };
         paths.push(Path::new(start, end));
     }
-
     paths
 }
 
