@@ -136,21 +136,15 @@ fn parse_num(index: &mut usize, bytes: &[u8]) -> Num {
     let mut num = Num::from(bytes[*index] - b'0');
     *index += 1;
 
-    loop {
-        match bytes[*index] {
-            digit if (b'0'..=b'9').contains(&digit) => {
-                num *= 10;
-                num += Num::from(digit - b'0');
-            }
-            _ => {
-                // branch always taken for part 1
-                break;
-            }
+    for &digit in bytes.iter().skip(*index) {
+        if !digit.is_ascii_digit() {
+            break;
         }
 
+        num *= 10;
+        num += Num::from(digit - b'0');
         *index += 1;
     }
-
     num
 }
 
