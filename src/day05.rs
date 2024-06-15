@@ -158,7 +158,8 @@ pub fn parse_input(input: &str) -> Vec<Path> {
 
         // TODO(bryanhitc): Replace with `advance_by`
         // once issue #77404 is merged?
-        iter.nth(3).unwrap();
+        iter.nth(2).unwrap();
+
         let end = Point {
             x: parse_num(&mut iter),
             y: parse_num(&mut iter),
