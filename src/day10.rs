@@ -129,7 +129,7 @@ pub fn part_two(lines: &Lines) -> Answer {
     scores[scores.len() / 2]
 }
 
-pub fn parse_input(input: &str) -> Lines {
+pub fn parse_input(input: &str) -> Lines<'_> {
     input.lines()
 }
 

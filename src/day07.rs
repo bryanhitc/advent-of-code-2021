@@ -12,7 +12,7 @@ pub mod impl07 {
     }
 
     fn distance(pos: u16, crab: u16) -> usize {
-        (crab as i32 - pos as i32).abs() as usize
+        usize::from(crab.abs_diff(pos))
     }
 
     pub fn part_one(crabs: &[u16]) -> usize {
@@ -49,7 +49,7 @@ pub mod implopt07 {
         (crabs
             .iter()
             .fold(usize::default(), |total, &crab| total + crab as usize)
-            / crabs.len() as usize) as u16
+            / crabs.len()) as u16
     }
 
     fn calculate(crabs: &[u16], cost: impl Fn(u16) -> usize) -> usize {
@@ -58,7 +58,7 @@ pub mod implopt07 {
 
     fn distance(pos: u16, crab: u16) -> usize {
         // can make this branchless by partitioning <= pos and > pos
-        (crab as i32 - pos as i32).abs() as usize
+        usize::from(crab.abs_diff(pos))
     }
 
     pub fn part_one(crabs: &[u16]) -> usize {
