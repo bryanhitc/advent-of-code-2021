@@ -1,5 +1,6 @@
 use advent_of_code_2021::*;
-use criterion::{Criterion, black_box, criterion_group, criterion_main};
+use criterion::{Criterion, criterion_group, criterion_main};
+use std::hint::black_box;
 
 macro_rules! benchmark {
     ($day_name:expr, $module:tt) => {
